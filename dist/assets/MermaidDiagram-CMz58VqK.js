@@ -1,0 +1,7 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/mermaid.esm-eBsgQD2W.js","assets/index-DwkGyXRE.js","assets/index-C6aqXy2K.css"])))=>i.map(i=>d[i]);
+import{r as s,u as x,j as e,_ as p}from"./index-DwkGyXRE.js";import{B as h}from"./Button-nWPDMw_E.js";import{T as v}from"./TextArea-BGoBekBT.js";import{T as g}from"./ToolSection-DOJU4p5W.js";const c=`flowchart TD
+  A[开始] --> B{条件}
+  B -- 是 --> C[处理1]
+  B -- 否 --> D[处理2]
+  C --> E[结束]
+  D --> E`;let n;const j=async()=>(n||(n=p(()=>import("./mermaid.esm-eBsgQD2W.js").then(t=>t.bG),__vite__mapDeps([0,1,2]))),n),w=()=>{const[t,i]=s.useState(c),[d,l]=s.useState(""),o=s.useRef(null),{t:m}=x();return s.useEffect(()=>{let r=!0;return(async()=>{try{const a=await j();a.default.initialize({startOnLoad:!1,theme:"neutral"});const u=`mermaid-${Date.now()}`,{svg:f}=await a.default.render(u,t);if(!r)return;o.current&&(o.current.innerHTML=f),l("")}catch(a){l(a.message)}})(),()=>{r=!1}},[t]),e.jsxs(g,{title:"思维导图 / 流程图",description:"基于 Mermaid.js 语法渲染流程图、思维导图。",actions:e.jsx(h,{variant:"secondary",onClick:()=>i(c),children:m("重置模板")}),children:[e.jsx(v,{value:t,onChange:r=>i(r.target.value),className:"min-h-[200px] font-mono"}),d?e.jsx("p",{className:"mt-2 text-sm text-red-500",children:d}):null,e.jsx("div",{className:"mt-6 overflow-x-auto rounded-lg border border-slate-200 bg-white/80 p-4 dark:border-slate-800 dark:bg-slate-900",children:e.jsx("div",{ref:o})})]})};export{w as default};

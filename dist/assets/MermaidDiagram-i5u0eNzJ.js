@@ -1,6 +1,0 @@
-import{_ as p}from"./mermaid-qV9g4jTJ.js";import{r as o,j as e}from"./vendor-E1qkQgBK.js";import{B as x}from"./Button-S8-yJkDU.js";import{T as h}from"./TextArea-BoVf9nms.js";import{T as v}from"./ToolSection-D3WFVMtC.js";import{u as g}from"./index-T0krPfu9.js";import"./format-parsers-Cy82sy8R.js";const l=`flowchart TD
-  A[开始] --> B{条件}
-  B -- 是 --> C[处理1]
-  B -- 否 --> D[处理2]
-  C --> E[结束]
-  D --> E`;let n;const j=async()=>(n||(n=p(()=>import("./mermaid-qV9g4jTJ.js").then(r=>r.m),[])),n),M=()=>{const[r,i]=o.useState(l),[m,d]=o.useState(""),s=o.useRef(null),{t:c}=g();return o.useEffect(()=>{let t=!0;return(async()=>{try{const a=await j();a.default.initialize({startOnLoad:!1,theme:"neutral"});const u=`mermaid-${Date.now()}`,{svg:f}=await a.default.render(u,r);if(!t)return;s.current&&(s.current.innerHTML=f),d("")}catch(a){d(a.message)}})(),()=>{t=!1}},[r]),e.jsxs(v,{title:"思维导图 / 流程图",description:"基于 Mermaid.js 语法渲染流程图、思维导图。",actions:e.jsx(x,{variant:"secondary",onClick:()=>i(l),children:c("重置模板")}),children:[e.jsx(h,{value:r,onChange:t=>i(t.target.value),className:"min-h-[200px] font-mono"}),m?e.jsx("p",{className:"mt-2 text-sm text-red-500",children:m}):null,e.jsx("div",{className:"mt-6 overflow-x-auto rounded-lg border border-slate-200 bg-white/80 p-4 dark:border-slate-800 dark:bg-slate-900",children:e.jsx("div",{ref:s})})]})};export{M as default};

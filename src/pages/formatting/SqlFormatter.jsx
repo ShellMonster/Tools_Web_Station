@@ -10,14 +10,19 @@ const SqlFormatter = () => {
   const [input, setInput] = useState('')
   const [output, setOutput] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const { t } = useTranslation()
 
-  const handleFormat = () => {
+  const handleFormat = async () => {
+    setLoading(true)
     try {
-      setOutput(formatSql(input))
+      const result = await formatSql(input)
+      setOutput(result)
       setError('')
     } catch (err) {
       setError(t('格式化失败: ${err.message}').replace('${err.message}', err.message))
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -28,7 +33,7 @@ const SqlFormatter = () => {
         description="格式化 SQL 语句，自动缩进关键字。"
         actions={
           <div className="flex gap-2">
-            <Button onClick={handleFormat} disabled={!input.trim()}>
+            <Button onClick={handleFormat} disabled={!input.trim() || loading}>
               格式化
             </Button>
             <Button variant="secondary" onClick={() => { setInput(''); setOutput(''); setError('') }}>
@@ -43,6 +48,7 @@ const SqlFormatter = () => {
           onChange={(event) => setInput(event.target.value)}
           className="min-h-[220px] font-mono"
         />
+        {loading ? <p className="mt-3 text-sm text-slate-500">{t('处理中…')}</p> : null}
         {error ? <p className="mt-3 text-sm text-red-500">{error}</p> : null}
       </ToolSection>
 

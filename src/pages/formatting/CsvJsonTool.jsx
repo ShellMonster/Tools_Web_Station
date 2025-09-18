@@ -9,23 +9,32 @@ const CsvJsonTool = () => {
   const [csvContent, setCsvContent] = useState('')
   const [jsonContent, setJsonContent] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const { t } = useTranslation()
 
-  const handleCsvToJson = () => {
+  const handleCsvToJson = async () => {
+    setLoading(true)
     try {
-      setJsonContent(csvToJson(csvContent))
+      const result = await csvToJson(csvContent)
+      setJsonContent(result)
       setError('')
     } catch (err) {
       setError(t('转换失败: ${err.message}').replace('${err.message}', err.message))
+    } finally {
+      setLoading(false)
     }
   }
 
-  const handleJsonToCsv = () => {
+  const handleJsonToCsv = async () => {
+    setLoading(true)
     try {
-      setCsvContent(jsonToCsv(jsonContent))
+      const result = await jsonToCsv(jsonContent)
+      setCsvContent(result)
       setError('')
     } catch (err) {
       setError(t('转换失败: ${err.message}').replace('${err.message}', err.message))
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -48,7 +57,7 @@ const CsvJsonTool = () => {
             className="min-h-[220px] font-mono"
           />
           <div className="mt-2 flex gap-2">
-            <Button onClick={handleCsvToJson} disabled={!csvContent.trim()}>
+            <Button onClick={handleCsvToJson} disabled={!csvContent.trim() || loading}>
               {t('转换为 JSON →')}
             </Button>
           </div>
@@ -61,12 +70,13 @@ const CsvJsonTool = () => {
             className="min-h-[220px] font-mono"
           />
           <div className="mt-2 flex gap-2">
-            <Button onClick={handleJsonToCsv} disabled={!jsonContent.trim()}>
+            <Button onClick={handleJsonToCsv} disabled={!jsonContent.trim() || loading}>
               {t('← 转换为 CSV')}
             </Button>
           </div>
         </div>
       </div>
+      {loading ? <p className="mt-3 text-sm text-slate-500">{t('处理中…')}</p> : null}
       {error ? <p className="mt-3 text-sm text-red-500">{error}</p> : null}
     </ToolSection>
   )

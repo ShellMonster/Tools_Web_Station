@@ -1,8 +1,0 @@
-import{r as d,j as a}from"./vendor-E1qkQgBK.js";import{I as l}from"./Input-dBmVsq4B.js";import{T as i}from"./ToolSection-D3WFVMtC.js";import{Q as c}from"./qr-tools-BDKnGZWC.js";import"./format-parsers-Cy82sy8R.js";import"./index-T0krPfu9.js";import"./mermaid-qV9g4jTJ.js";const p=({name:r,phone:s,email:o,company:t,title:e})=>`BEGIN:VCARD
-VERSION:3.0
-FN:${r}
-${t?`ORG:${t}
-`:""}${e?`TITLE:${e}
-`:""}${s?`TEL;TYPE=CELL:${s}
-`:""}${o?`EMAIL:${o}
-`:""}END:VCARD`,b=()=>{const[r,s]=d.useState({name:"张三",phone:"13800000000",email:"demo@example.com",company:"示例公司",title:"前端开发"}),o=d.useMemo(()=>p(r),[r]),t=(e,n)=>{s(m=>({...m,[e]:n}))};return a.jsxs(i,{title:"二维码名片生成",description:"填写基本信息，生成 vCard 二维码。",children:[a.jsxs("div",{className:"grid gap-4 md:grid-cols-2",children:[a.jsx(l,{value:r.name,onChange:e=>t("name",e.target.value),placeholder:"姓名"}),a.jsx(l,{value:r.phone,onChange:e=>t("phone",e.target.value),placeholder:"电话"}),a.jsx(l,{value:r.email,onChange:e=>t("email",e.target.value),placeholder:"邮箱"}),a.jsx(l,{value:r.company,onChange:e=>t("company",e.target.value),placeholder:"公司"}),a.jsx(l,{value:r.title,onChange:e=>t("title",e.target.value),placeholder:"职位"})]}),a.jsxs("div",{className:"mt-6 flex flex-col items-start gap-4 md:flex-row md:items-center",children:[a.jsx("div",{className:"rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900",children:a.jsx(c,{value:o,size:180,level:"H"})}),a.jsx("textarea",{className:"h-40 w-full rounded-md border border-slate-200 bg-white p-3 text-sm font-mono dark:border-slate-800 dark:bg-slate-900",value:o,readOnly:!0})]})]})};export{b as default};

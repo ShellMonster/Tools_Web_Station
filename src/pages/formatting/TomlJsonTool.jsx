@@ -9,23 +9,32 @@ const TomlJsonTool = () => {
   const [tomlContent, setTomlContent] = useState('')
   const [jsonContent, setJsonContent] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const { t } = useTranslation()
 
-  const handleTomlToJson = () => {
+  const handleTomlToJson = async () => {
+    setLoading(true)
     try {
-      setJsonContent(tomlToJson(tomlContent))
+      const result = await tomlToJson(tomlContent)
+      setJsonContent(result)
       setError('')
     } catch (err) {
       setError(t('转换失败: ${err.message}').replace('${err.message}', err.message))
+    } finally {
+      setLoading(false)
     }
   }
 
-  const handleJsonToToml = () => {
+  const handleJsonToToml = async () => {
+    setLoading(true)
     try {
-      setTomlContent(jsonToToml(jsonContent))
+      const result = await jsonToToml(jsonContent)
+      setTomlContent(result)
       setError('')
     } catch (err) {
       setError(t('转换失败: ${err.message}').replace('${err.message}', err.message))
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -55,7 +64,7 @@ const TomlJsonTool = () => {
             className="min-h-[220px] font-mono"
           />
           <div className="mt-2 flex gap-2">
-            <Button onClick={handleTomlToJson} disabled={!tomlContent.trim()}>
+            <Button onClick={handleTomlToJson} disabled={!tomlContent.trim() || loading}>
               {t('转换为 JSON →')}
             </Button>
           </div>
@@ -68,12 +77,13 @@ const TomlJsonTool = () => {
             className="min-h-[220px] font-mono"
           />
           <div className="mt-2 flex gap-2">
-            <Button onClick={handleJsonToToml} disabled={!jsonContent.trim()}>
+            <Button onClick={handleJsonToToml} disabled={!jsonContent.trim() || loading}>
               {t('← 转换为 TOML')}
             </Button>
           </div>
         </div>
       </div>
+      {loading ? <p className="mt-2 text-sm text-slate-500">{t('处理中…')}</p> : null}
       {error ? <p className="mt-3 text-sm text-red-500">{error}</p> : null}
     </ToolSection>
   )

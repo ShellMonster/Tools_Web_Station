@@ -1,12 +1,45 @@
-import { parse as parseToml, stringify as stringifyToml } from '@ltd/j-toml'
-import he from 'he'
-import beautify from 'js-beautify'
-import Papa from 'papaparse'
-import { format as sqlFormat } from 'sql-formatter'
-import xmlFormat from 'xml-formatter'
-import YAML from 'yaml'
+let yamlModulePromise
+let tomlModulePromise
+let papaModulePromise
+let beautifyModulePromise
+let sqlFormatterPromise
+let xmlFormatterPromise
+let htmlEntitiesPromise
 
-const { js: beautifyJs, css: beautifyCss, html: beautifyHtml } = beautify
+const loadYaml = async () => {
+  if (!yamlModulePromise) yamlModulePromise = import('yaml')
+  return yamlModulePromise
+}
+
+const loadToml = async () => {
+  if (!tomlModulePromise) tomlModulePromise = import('@ltd/j-toml')
+  return tomlModulePromise
+}
+
+const loadPapa = async () => {
+  if (!papaModulePromise) papaModulePromise = import('papaparse')
+  return papaModulePromise
+}
+
+const loadBeautify = async () => {
+  if (!beautifyModulePromise) beautifyModulePromise = import('js-beautify')
+  return beautifyModulePromise
+}
+
+const loadSqlFormatter = async () => {
+  if (!sqlFormatterPromise) sqlFormatterPromise = import('sql-formatter')
+  return sqlFormatterPromise
+}
+
+const loadXmlFormatter = async () => {
+  if (!xmlFormatterPromise) xmlFormatterPromise = import('xml-formatter')
+  return xmlFormatterPromise
+}
+
+const loadHtmlEntities = async () => {
+  if (!htmlEntitiesPromise) htmlEntitiesPromise = import('he')
+  return htmlEntitiesPromise
+}
 
 export function formatJson(value) {
   const parsed = JSON.parse(value)
@@ -27,27 +60,32 @@ export function validateJson(value) {
   }
 }
 
-export function formatYaml(yamlString) {
+export async function formatYaml(yamlString) {
+  const { default: YAML } = await loadYaml()
   const doc = YAML.parse(yamlString)
   return YAML.stringify(doc)
 }
 
-export function yamlToJson(yamlString) {
+export async function yamlToJson(yamlString) {
+  const { default: YAML } = await loadYaml()
   const doc = YAML.parse(yamlString)
   return JSON.stringify(doc, null, 2)
 }
 
-export function jsonToYaml(jsonString) {
+export async function jsonToYaml(jsonString) {
+  const { default: YAML } = await loadYaml()
   const doc = JSON.parse(jsonString)
   return YAML.stringify(doc)
 }
 
-export function tomlToJson(tomlString) {
+export async function tomlToJson(tomlString) {
+  const { parse: parseToml } = await loadToml()
   const doc = parseToml(tomlString, { joiner: '\n', bigint: false })
   return JSON.stringify(doc, null, 2)
 }
 
-export function jsonToToml(jsonString) {
+export async function jsonToToml(jsonString) {
+  const { stringify: stringifyToml } = await loadToml()
   const doc = JSON.parse(jsonString)
   return stringifyToml(doc, {
     newline: '\n',
@@ -56,26 +94,31 @@ export function jsonToToml(jsonString) {
   })
 }
 
-export function csvToJson(csvString) {
+export async function csvToJson(csvString) {
+  const { default: Papa } = await loadPapa()
   const parsed = Papa.parse(csvString.trim(), { header: true, skipEmptyLines: true })
   return JSON.stringify(parsed.data, null, 2)
 }
 
-export function jsonToCsv(jsonString) {
+export async function jsonToCsv(jsonString) {
+  const { default: Papa } = await loadPapa()
   const data = JSON.parse(jsonString)
   return Papa.unparse(data)
 }
 
-export function formatHtml(value) {
-  return beautifyHtml(value, { indent_size: 2, wrap_line_length: 120 })
+export async function formatHtml(value) {
+  const beautify = await loadBeautify()
+  return beautify.html(value, { indent_size: 2, wrap_line_length: 120 })
 }
 
-export function formatCss(value) {
-  return beautifyCss(value, { indent_size: 2 })
+export async function formatCss(value) {
+  const beautify = await loadBeautify()
+  return beautify.css(value, { indent_size: 2 })
 }
 
-export function formatJavascript(value) {
-  return beautifyJs(value, { indent_size: 2 })
+export async function formatJavascript(value) {
+  const beautify = await loadBeautify()
+  return beautify.js(value, { indent_size: 2 })
 }
 
 export function minifyHtml(value) {
@@ -104,7 +147,8 @@ export function minifyJavascript(value) {
     .trim()
 }
 
-export function formatXml(value) {
+export async function formatXml(value) {
+  const { default: xmlFormat } = await loadXmlFormatter()
   return xmlFormat(value, {
     indentation: '  ',
     collapseContent: true,
@@ -119,14 +163,17 @@ export function minifyXml(value) {
     .trim()
 }
 
-export function encodeHtmlEntities(value) {
+export async function encodeHtmlEntities(value) {
+  const { default: he } = await loadHtmlEntities()
   return he.encode(value)
 }
 
-export function decodeHtmlEntities(value) {
+export async function decodeHtmlEntities(value) {
+  const { default: he } = await loadHtmlEntities()
   return he.decode(value)
 }
 
-export function formatSql(value) {
+export async function formatSql(value) {
+  const { format: sqlFormat } = await loadSqlFormatter()
   return sqlFormat(value, { language: 'sql' })
 }

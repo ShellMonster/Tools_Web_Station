@@ -10,23 +10,32 @@ const XmlTool = () => {
   const [input, setInput] = useState('')
   const [output, setOutput] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const { t } = useTranslation()
 
-  const handleFormat = () => {
+  const handleFormat = async () => {
+    setLoading(true)
     try {
-      setOutput(formatXml(input))
+      const result = await formatXml(input)
+      setOutput(result)
       setError('')
     } catch (err) {
       setError(t('格式化失败: ${err.message}').replace('${err.message}', err.message))
+    } finally {
+      setLoading(false)
     }
   }
 
-  const handleMinify = () => {
+  const handleMinify = async () => {
+    setLoading(true)
     try {
-      setOutput(minifyXml(input))
+      const result = await minifyXml(input)
+      setOutput(result)
       setError('')
     } catch (err) {
       setError(t('压缩失败: ${err.message}').replace('${err.message}', err.message))
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -37,10 +46,10 @@ const XmlTool = () => {
         description="格式化 XML 文档或压缩成单行，便于调试与传输。"
         actions={
           <div className="flex items-center gap-2">
-            <Button onClick={handleFormat} disabled={!input.trim()}>
+            <Button onClick={handleFormat} disabled={!input.trim() || loading}>
               格式化
             </Button>
-            <Button onClick={handleMinify} disabled={!input.trim()}>
+            <Button onClick={handleMinify} disabled={!input.trim() || loading}>
               压缩
             </Button>
             <Button
@@ -62,6 +71,7 @@ const XmlTool = () => {
           onChange={(event) => setInput(event.target.value)}
           className="min-h-[240px] font-mono"
         />
+        {loading ? <p className="mt-3 text-sm text-slate-500">{t('处理中…')}</p> : null}
         {error ? <p className="mt-3 text-sm text-red-500">{error}</p> : null}
       </ToolSection>
 

@@ -19,41 +19,48 @@ const CodeBeautify = () => {
   const [input, setInput] = useState('')
   const [output, setOutput] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const { t } = useTranslation()
 
-  const handleFormat = () => {
+  const handleFormat = async () => {
+    setLoading(true)
     try {
       switch (language) {
         case 'html':
-          setOutput(formatHtml(input))
+          setOutput(await formatHtml(input))
           break
         case 'css':
-          setOutput(formatCss(input))
+          setOutput(await formatCss(input))
           break
         default:
-          setOutput(formatJavascript(input))
+          setOutput(await formatJavascript(input))
       }
       setError('')
     } catch (err) {
       setError(t('格式化失败: ${err.message}').replace('${err.message}', err.message))
+    } finally {
+      setLoading(false)
     }
   }
 
-  const handleMinify = () => {
+  const handleMinify = async () => {
+    setLoading(true)
     try {
       switch (language) {
         case 'html':
-          setOutput(minifyHtml(input))
+          setOutput(await minifyHtml(input))
           break
         case 'css':
-          setOutput(minifyCss(input))
+          setOutput(await minifyCss(input))
           break
         default:
-          setOutput(minifyJavascript(input))
+          setOutput(await minifyJavascript(input))
       }
       setError('')
     } catch (err) {
       setError(t('压缩失败: ${err.message}').replace('${err.message}', err.message))
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -69,10 +76,10 @@ const CodeBeautify = () => {
               <option value="css">CSS</option>
               <option value="js">JavaScript</option>
             </Select>
-            <Button onClick={handleFormat} disabled={!input.trim()}>
+            <Button onClick={handleFormat} disabled={!input.trim() || loading}>
               格式化
             </Button>
-            <Button onClick={handleMinify} disabled={!input.trim()}>
+            <Button onClick={handleMinify} disabled={!input.trim() || loading}>
               压缩
             </Button>
             <Button variant="secondary" onClick={() => { setInput(''); setOutput(''); setError('') }}>
@@ -87,6 +94,7 @@ const CodeBeautify = () => {
           onChange={(event) => setInput(event.target.value)}
           className="min-h-[240px] font-mono"
         />
+        {loading ? <p className="mt-3 text-sm text-slate-500">{t('处理中…')}</p> : null}
         {error ? <p className="mt-3 text-sm text-red-500">{error}</p> : null}
       </ToolSection>
 
