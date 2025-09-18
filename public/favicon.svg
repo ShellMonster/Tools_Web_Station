@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">IT Toolbox Icon</title>
+  <desc id="desc">Blue gradient square with letters IT</desc>
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#1e3a8a" />
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="url(#gradient)" />
+  <rect x="16" y="16" width="96" height="96" rx="20" fill="#0f172a" opacity="0.35" />
+  <text x="50%" y="52%" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="60" font-weight="700" fill="#f8fafc" letter-spacing="4">IT</text>
+  <rect x="28" y="92" width="72" height="8" rx="4" fill="#93c5fd" opacity="0.4" />
+</svg>

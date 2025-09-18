@@ -12,7 +12,7 @@ import { useTranslation } from './i18n/index.jsx'
 const defaultToolId = toolGroups[0]?.tools[0]?.id ?? ''
 
 function App() {
-  const { t } = useTranslation()
+  const { t, locale } = useTranslation()
   const [activeToolId, setActiveToolId] = useState(defaultToolId)
   const [searchValue, setSearchValue] = useState('')
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -26,6 +26,11 @@ function App() {
     document.documentElement.classList.toggle('dark', isDarkMode)
     window.localStorage.setItem('theme', isDarkMode ? 'dark' : 'light')
   }, [isDarkMode])
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+    document.title = locale === 'zh' ? 'IT工具箱' : 'IT Toolbox'
+  }, [locale])
 
   useEffect(() => {
     const storedTool = window.localStorage.getItem('active-tool')
