@@ -1,0 +1,53 @@
+{
+  "name": "web-tools-station",
+  "private": true,
+  "version": "1.0.0",
+  "description": "集成开发、调试、日常工具的前端 Web 工具站",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ltd/j-toml": "^1.38.0",
+    "browser-image-compression": "^2.0.2",
+    "color-convert": "^3.1.2",
+    "cronstrue": "^3.3.0",
+    "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.18",
+    "diff-match-patch": "^1.0.5",
+    "he": "^1.2.0",
+    "js-beautify": "^1.15.4",
+    "jsbarcode": "^3.12.1",
+    "jsqr": "^1.4.0",
+    "marked": "^16.3.0",
+    "mermaid": "^11.11.0",
+    "papaparse": "^5.5.3",
+    "qrcode.react": "^4.2.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "sql-formatter": "^15.6.9",
+    "turndown": "^7.2.1",
+    "ua-parser-js": "^2.0.5",
+    "uuid": "^13.0.0",
+    "xml-formatter": "^3.6.6",
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "vite": "^7.1.2",
+    "vite-plugin-javascript-obfuscator": "^3.1.0"
+  }
+}
